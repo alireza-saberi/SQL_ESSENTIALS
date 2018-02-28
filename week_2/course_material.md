@@ -142,3 +142,117 @@ select last_name Name,  hire_date
 from employees
 where hire_date Between '1997/7/4' AND '1999/7/4';
 ```
+
+#### Q19. Who was hired on the the month of May?
+```
+select last_name Name,  hire_date
+from employees
+where monthname(hire_date) = 'May';
+```
+
+#### Q19a. Using the month() function
+```
+select last_name Name,  hire_date
+from employees
+ where month(hire_date) = 5;
+```
+
+#### Q20. Who was hired on the 21st of the month?
+```
+select last_name Name,  hire_date
+from employees
+where dayofmonth(hire_date) = 21;
+```
+
+### Aggregation
+
+***Aggregated functions: Avg(), Min(), Max(), Sum(), Count()***
+
+#### Q21. Display the salary average in the company.
+```
+select avg(salary) "Salary Average"
+from employees;
+```
+
+#### Q22. Display the minimum salary in the company.
+```
+select min(salary) "Minimum Salary"
+from employees;
+```
+
+#### Q23. Display the highest salary in the company.
+
+```
+select max(salary) "Highest Salary"
+from employees;
+```
+
+#### Q24. Display the total amount on salaries paid by the company.
+
+```
+select sum(salary) "Total Amount"
+from employees;
+```
+
+#### Q25. How many employees work in the company?
+```
+select count(*) "Number of Employees"
+from employees;
+```
+
+#### Q26. Display how many employees have been assigned to departments.
+```
+select count(department_id) "Number of Employees Assigned"
+from employees;
+```
+
+or better
+
+```
+select count(*) "Number of employees"
+from employees
+Group by department_id;
+```
+
+#### Q27. How many employees there are per department?
+```
+select Department_id Department,count(*) "Number of employees"
+from employees
+Group by department_id;
+```
+
+#### Q27a. Adding the department_id to the output to qualify the Number of Employees
+```
+select Department_id Department,count(*) "Number of employees"
+from employees
+where department_id IS NOT null
+Group by department_id;
+```
+
+or 
+
+```
+select Department_id Department,count(department_id) "Number of employees"
+from employees
+where department_id IS NOT null
+Group by department_id;
+```
+
+#### Q27b. Adding to display in numerical order Ascending by number of employees.
+
+```
+select Department_id Department,count(department_id) "Number of employees"
+from employees
+where department_id IS NOT null
+Group by department_id
+Order by 2;
+```
+
+####  Q27c. Adding to display in numerical order Descending by number of employees.
+```
+select Department_id Department,count(department_id) "Number of employees"
+from employees
+where department_id IS NOT null
+Group by department_id
+Order by 2 DESC;
+```
