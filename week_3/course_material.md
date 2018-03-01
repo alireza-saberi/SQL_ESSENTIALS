@@ -95,3 +95,23 @@ from employees e INNER JOIN  job_grades jb
 ON  e.salary BETWEEN jb.lowest_sal AND jb.highest_sal
 Order by 3;
 ```
+
+#### Q46. Display employee name, department name and city where the department name is located.
+
+##### Standard Syntax
+
+```
+Select e.employee_id ID, d.department_name Department, l.city City
+From employees e, departments d, locations l
+Where e.department_id = d.department_id AND d.location_id = l.location_id;
+```
+
+##### Syntax 1999
+```
+Select e.employee_id ID, d.department_name Department, l.city City
+from employees e JOIN departments d
+ON e.department_id = d.department_id
+JOIN Locations l
+ON d.location_id = l.location_id
+Order by 3;
+```
