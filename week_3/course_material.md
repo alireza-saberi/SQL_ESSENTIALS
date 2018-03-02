@@ -1,117 +1,124 @@
-**Rule of thuumb avoid like statements**
+## Equi Joins
 
+#### Q29. Display the employee names as well as the names of the departments that they work for.
 
-#### Q40. Find last name and first name of those employees whose last names start with the letter k.
-
-```
-Select last_name, first_name
-from employees
-where LEFT(last_name,1) =  'k';
-```
-
-or 
+##### Standard Syntax
 
 ```
-Select last_name, first_name
-from employees
-Where Last_name LIKE 'k%';
+Select employees.last_name Name, departments.department_name Department
+from employees, departments
+where employees.department_id = departments.department_id;
 ```
 
-#### Q41. Find last name and first name of those employees whose last name's 3 characters are "ing".
-```
-Select last_name, first_name
-from employees
-where RIGHT(last_name,3) = 'ing';
-```
-
-or
+##### Standard Syntax using aliases
 
 ```
-Select last_name, first_name
-from employees
-Where last_name LIKE '%ing';
+Select e.last_name Name, d.department_name Department
+from employees e, departments d
+where e.department_id = d.department_id;
 ```
 
-#### Q42. Find last name and first name of those employees whose second letter of their last name is the letter o.
+##### Syntax 1999
 
 ```
-Select last_name, first_name
-from employees
-Where SUBSTR(last_name,2,1) = 'o';
-```
-or
-
-```
-Select last_name, first_name
-from employees
-Where SUBSTRING(last_name,2,1) = 'o';
-```
-***Looks like the SUBSTR, SUBSTRING are same***
-
-or
-
-```
-Select last_name, first_name
-from employees
-Where last_name LIKE '_o%';
+Select e.last_name Name, d.department_name Department
+from employees e JOIN departments d
+ON e.department_id = d.department_id;
 ```
 
-### OUTER JOINS
+#### Q30.Display department id, department name , location id and city where thew department is located.
 
-#### Q43. Display the names of employees that work for a department and those departments that do not have any employees assigned to.
-
+##### Standard syntax
 ```
-Select e.last_name, d.department_name "Works for"
-from employees e RIGHT OUTER JOIN departments d
-ON e.department_id = d.department_id 
-order by e.last_name;
+select d.department_id Id, d.department_name Department, d.location_id Location, l.city City
+from departments d, locations l
+where d.location_id = l.location_id;
 ```
 
-#### Q44. Display the employees that work for a department a those employees that are not assigned to any department.
+##### Syntax 1999
 ```
-Select e.last_name, d.department_name "Works for"
-from employees e LEFT OUTER JOIN departments d
+select d.department_id Id, d.department_name Department, d.location_id Location, l.city City
+from departments d JOIN locations l
+ON d.location_id = l.location_id;
+```
+
+#### Q31.Display department id, department name , location id and city where thew department is located.
+##### Standard syntax
+
+```
+Select d.department_name Department, e.last_name Manager
+From employees e, departments d
+where e.department_id = d.department_id AND e.employee_id = d.manager_id;
+```
+
+##### Syntax 1999
+```
+Select d.department_name Department, e.last_name Manager
+From employees e JOIN departments d
 ON e.department_id = d.department_id
-Order by d.department_name;
+Where e.employee_id = d.manager_id;
 ```
 
-### NON Equi joins
-
-#### Q45. Find the grade level corresponding to the salary of each employee. Display last name, salary and grade level.
-
-##### Standard Syntax
-
+#### Q32. Display the names of employees that work for the Accounting department.
+##### Standard syntax
 ```
-Select e.last_name Name, e.salary Salary, jb.grade_level "Grade"
-from employees e, job_grades jb
-where e.salary BETWEEN jb.lowest_sal AND jb.highest_sal
-Order by 3;
+select e.last_name Name, d.department_name Department
+from employees e, departments d
+where e.department_id = d.department_id AND d.department_name = 'Accounting';
 ```
 
 ##### Syntax 1999
 ```
-Select e.last_name Name, e.salary Salary, jb.grade_level "Grade"
-from employees e INNER JOIN  job_grades jb
-ON  e.salary BETWEEN jb.lowest_sal AND jb.highest_sal
-Order by 3;
-```
-
-#### Q46. Display employee name, department name and city where the department name is located.
-
-##### Standard Syntax
-
-```
-Select e.employee_id ID, d.department_name Department, l.city City
-From employees e, departments d, locations l
-Where e.department_id = d.department_id AND d.location_id = l.location_id;
-```
-
-##### Syntax 1999
-```
-Select e.employee_id ID, d.department_name Department, l.city City
+select e.last_name Name, d.department_name Department
 from employees e JOIN departments d
 ON e.department_id = d.department_id
-JOIN Locations l
-ON d.location_id = l.location_id
-Order by 3;
+where d.department_name = 'Accounting';
+```
+
+#### Q33. Who works for the Admin department?
+Admin is not the name of the Department [Name is: Administration]
+
+##### Standard syntax
+```
+Select e.last_name Name
+From employees e, departments d
+Where e.department_id = d.department_id AND d.department_name = 'Administration';
+```
+
+##### Syntax 1999
+```
+Select e.last_name Name
+From employees e JOIN departments d
+ON e.department_id = d.department_id
+Where d.department_name = 'Administration';
+```
+
+##### Example of failing to join the tables 
+
+```
+select e.last_name Name, d.department_name Department
+from employees e, departments d
+where d.department_name = 'Administration';
+```
+
+##### Example of a Cartesian Product 
+
+```
+select e.last_name Name, d.department_name Department
+from employees e, departments d;
+```
+
+#### Q35. Display the country name where the city of Toronto is located.
+##### Standard syntax
+```
+Select c.country_name Country
+From locations l, countries c
+where l.country_id = c.country_id AND l.city = 'Toronto';
+```
+##### Syntax 1999
+```
+Select c.country_name Country
+From locations l JOIN countries c
+ON l.country_id = c.country_id 
+Where l.city = 'Toronto';
 ```
