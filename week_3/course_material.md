@@ -108,7 +108,7 @@ select e.last_name Name, d.department_name Department
 from employees e, departments d;
 ```
 
-#### Q35. Display the country name where the city of Toronto is located.
+#### Q34. Display the country name where the city of Toronto is located.
 ##### Standard syntax
 ```
 Select c.country_name Country
