@@ -25,3 +25,14 @@ where department_id = (Select department_id
                        from departments
                        where department_name = 'Executive');
 ```
+
+or 
+
+```
+Select e.Last_name Name, e.Job_id Job, d.Department_id Department
+From employees e, departments d 
+Where e.department_id = d.department_id
+AND d.department_name = 'Executive';
+```
+
+#### 
