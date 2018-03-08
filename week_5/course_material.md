@@ -35,4 +35,36 @@ Where e.department_id = d.department_id
 AND d.department_name = 'Executive';
 ```
 
-#### 
+#### Q54. Display the names of employees that do not have any subordinates.
+```
+Select last_name Name
+from employees
+where employee_id NOT IN (Select manager_id
+                          from employees
+                          Where manager_id is not null);
+```
+
+#### Q55. Find the last names of employees that earn more than Matos.
+```
+Select last_name Name
+from employees
+where salary >  (Select salary
+                 from employees
+                 where last_name = 'Matos');
+```
+
+
+#### Q56. Display the last name, salary, and job id of all employees that their salary is less than any of the salaries of employees with job id SA_REP.
+```
+Select last_name Name, salary, job_id
+From employees
+where salary < ANY  (Select salary
+                     from employees
+                     where job_id = 'SA_REP')
+AND job_id <> 'SA_REP';
+```
+
+#### Q57. Display the names of employees that are managers.
+```
+
+```
